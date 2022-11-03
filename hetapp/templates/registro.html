@@ -1,0 +1,133 @@
+{% load static %}
+{% load myfilters %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{% static 'rest_framework/css/bootstrap.min.css' %}">
+    <title>Registro</title>
+
+    <style>
+        /* Body con login centrado y animado */
+        body {
+            background: #ffffff;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            /* background image  */
+            background-image: url("{% static 'rest_framework/img/grid.png' %}");
+
+        }
+
+        /* Formulario de login que desciende*/
+        .login {
+            animation: desciende 0.5s ease-in-out;
+        }
+
+        /* Animación de desciende */
+
+        @keyframes desciende {
+            0% {
+                transform: translateY(-100px);
+                opacity: 0;
+            }
+
+            100% {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+    </style>
+
+</head>
+
+
+<body>
+
+
+    <!--Login con bootstrap-->
+    <div class="container registro">
+        <div class="row">
+            <div class="col-md-8 col-md-offset-2">
+                <div class="login-panel panel panel-default">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">Registro</h3>
+                    </div>
+                    <div class="panel-body">
+
+                        <!--form import-->
+                        <form role="form" method="POST" action="">
+                            <fieldset>
+                                {% csrf_token %}
+                                <!--For in range-->
+                                {% for field in form %}
+                                <!--si es select -->
+                                {% if field.field.widget|is_select %}
+
+                                <!--Select-->
+                                <div class="form-group col-lg-6">
+                                    <select class="form-control" name="{{ field.name }}" id="{{ field.name }}">
+                                        <option value="">Seleccione {{ field.label }}</option>
+                                        {% for option in field.field.choices %}
+                                        <option value="{{ option.0 }}">{{ option.1 }}</option>
+                                        {% endfor %}
+                                    </select>
+                                </div>
+
+                                {% else %}
+                                <div class="form-group col-lg-6 ">
+                                    {% if field.label == "Contraseña"  %}
+                                    {{ field }}
+                                    <p class="h6">La contraseña debe tener 8 caracteres, al menos una
+                                        minuscula, una mayuscula, un numero y un caracter especial</p>
+                                    </p>
+                                    {% else %}
+                                    {{ field }}
+                                    {% endif %}
+
+                                </div>
+                                {% endif %}
+
+
+                                {% endfor %}
+
+
+                            </fieldset>
+
+
+                            <button type="submit" class="btn btn-lg btn-primary btn-block">Registrarse</button>
+
+                        </form>
+                    </div>
+                    <!-- panel footer -->
+                    <div class="panel-footer">
+
+                        {% if form.errors %}
+                        <div class="alert alert-danger" role="alert">
+                            <ul>
+                                {% for field in form %}
+                                {% for error in field.errors %}
+                                <li>{{ field.label }}: {{ error }}</li>
+                                {% endfor %}
+                                {% endfor %}
+                            </ul>
+
+                        </div>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+
+</body>
+
+</html>
