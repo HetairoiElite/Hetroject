@@ -18,8 +18,8 @@ from django.urls import path
 from django.conf.urls import include
 
 urlpatterns = [
-    # path('jet/', include('jet.urls', 'jet')),
-    # path('jet/dashboard/', include('jet.dashboard.urls', 'jet-dashboard')),  # Django JET dashboard URLS
+    path('jet/', include('jet.urls', 'jet')),
+    path('jet/dashboard/', include('jet.dashboard.urls', 'jet-dashboard')),  # Django JET dashboard URLS
     path('admin/', admin.site.urls),
     path('hetapp/', include('hetapp.urls')),
     path('api-auth/', include('rest_framework.urls')),
